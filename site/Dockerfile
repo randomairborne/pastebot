@@ -9,7 +9,7 @@ FROM debian:stable-slim
 
 WORKDIR /site/
 
-COPY --from=builder /build/target/release/website /bin/website
+COPY --from=builder /build/target/release/site /bin/site
 COPY ./resources/ ./resources/
 
-CMD ["/bin/website"]
+CMD ["/bin/site"]
