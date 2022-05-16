@@ -57,9 +57,13 @@
             <a href="mailto:valk@randomairborne.dev" class="btn">Contact</a>
         </div>
     </div>
-    <div class="paste">
-        <noscript>Unfortunately this paste site requires javascript.</noscript>
-    </div>
+    <pre>
+    	<code>
+    	    <div class="paste" id="paste">
+                <noscript>Unfortunately this paste site requires javascript.</noscript>
+            </div>
+	</code>
+    </pre>
 </body>
 <script>
     fetch('https://api.paste.valk.sh' + location.pathname)
@@ -67,4 +71,5 @@
         .then(data => document.getElementById('paste').innerText = data);
 </script>
 <script src="/js/highlight.js"></script>
+<script>hljs.highlightAll();</script>
 </html>
