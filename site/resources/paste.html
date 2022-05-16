@@ -44,7 +44,7 @@
             justify-content: center;
             align-items: center;
             color: #fff;
-	        word-wrap: break-word;
+	    word-wrap: break-word;
 	    }
     </style>
 </head>
@@ -58,17 +58,18 @@
         </div>
     </div>
     <pre>
-    	<code>
-    	    <div class="paste" id="paste">
-                <noscript>Unfortunately this paste site requires javascript.</noscript>
-            </div>
+    	<code class="paste" id="paste">
+    	    
 	</code>
     </pre>
 </body>
 <script>
-    fetch('https://api.paste.valk.sh' + location.pathname)
-        .then(response => response.text())
-        .then(data => document.getElementById('paste').innerText = data);
+    let data = await fetch('https://api.paste.valk.sh' + location.pathname)
+        .then(response => response.text());
+    let contents = data.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+    document.getElementById('paste').innerText = contents;
+}
+
 </script>
 <script src="/js/highlight.js"></script>
 <script>hljs.highlightAll();</script>
