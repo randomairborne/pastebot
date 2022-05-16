@@ -4,7 +4,7 @@ services:
     ports:
       - "8080:8080"
   website:
-    image: ghcr.io/randomairborne/pastebot-website
+    image: ghcr.io/randomairborne/pastebot-web
     ports:
       - "5000:8080"
   bot:

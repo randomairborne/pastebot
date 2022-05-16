@@ -18,7 +18,7 @@ struct Files {
     index: String,
     highlight_js: String,
     highlight_css: String,
-    logo: Vec<u8>
+    logo: Vec<u8>,
 }
 
 #[tokio::main]
@@ -49,7 +49,10 @@ async fn main() {
             "/css/highlight.css",
             get(move || async { Css(files.highlight_css) }),
         )
-        .route("/logo.png", move || async { Png(files.logo) });
+        .route(
+            "/logo.png", 
+            get(move || async { Png(files.logo) })
+            );
 
     let listen = SocketAddr::from(([0, 0, 0, 0], 8080));
     println!("[INFO] Listening on http://{}", &listen);

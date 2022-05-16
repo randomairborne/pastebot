@@ -6,7 +6,7 @@ use axum::{
 
 /// A CSS response.
 ///
-/// Will automatically get `Content-Type: text/html`.
+/// Will automatically get `Content-Type: text/css`.
 #[derive(Clone, Copy, Debug)]
 pub struct Css<T>(pub T);
 
@@ -31,7 +31,7 @@ impl<T> From<T> for Css<T> {
 
 /// A JavaScript response.
 ///
-/// Will automatically get `Content-Type: text/html`.
+/// Will automatically get `Content-Type: application/javascript`.
 #[derive(Clone, Copy, Debug)]
 pub struct JavaScript<T>(pub T);
 
@@ -57,9 +57,9 @@ impl<T> From<T> for JavaScript<T> {
     }
 }
 
-/// A JavaScript response.
+/// A PNG response.
 ///
-/// Will automatically get `Content-Type: text/html`.
+/// Will automatically get `Content-Type: image/png`.
 #[derive(Clone, Copy, Debug)]
 pub struct Png<T>(pub T);
 
@@ -71,7 +71,7 @@ where
         (
             [(
                 header::CONTENT_TYPE,
-                HeaderValue::from_static("image/png"),
+                HeaderValue::from_static("application/javascript"),
             )],
             self.0.into(),
         )
