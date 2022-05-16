@@ -66,12 +66,13 @@
 <script>
     fetch('https://api.paste.valk.sh' + location.pathname)
         .then(response => response.text())
-		.then(function(text) {
+	.then(function(text) {
 
 			
-    let contents = data.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
-				document.getElementById('paste').innerText = contents; });
-}
+            let contents = data.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+            document.getElementById('paste').innerText = contents; 
+	});
+
 
 </script>
 <script src="/js/highlight.js"></script>
