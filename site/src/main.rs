@@ -16,6 +16,7 @@ const BOT_INVITE: &str = "https://discord.com/api/oauth2/authorize?client_id=975
 struct Files {
     paste: String,
     index: String,
+    css: String,
     highlight_js: String,
     highlight_css: String,
     logo: Vec<u8>,
@@ -26,6 +27,7 @@ async fn main() {
     let files = Files {
         paste: std::fs::read_to_string("resources/paste.html").unwrap(),
         index: std::fs::read_to_string("resources/index.html").unwrap(),
+        css: std::fs::read_to_string("resources/main.css").unwrap(),
         highlight_js: std::fs::read_to_string("resources/highlight.js").unwrap(),
         highlight_css: std::fs::read_to_string("resources/highlight.css").unwrap(),
         logo: std::fs::read("resources/logo.png").unwrap(),
@@ -41,6 +43,10 @@ async fn main() {
             "/:channelid/:messageid/:filename",
             get(move || async { Html(files.paste) }),
         )
+        .route(
+            "/css/main.css",
+            get(move || async { Css(files.css) } )
+            )
         .route(
             "/js/highlight.js",
             get(move || async { JavaScript(files.highlight_js) }),
