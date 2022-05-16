@@ -6,7 +6,7 @@ authors = ["valkyrie_pilot <valk@randomairborne.dev>"]
 
 [dependencies]
 axum = { version = "0.5", features = ["http1"], default-features = false }
-reqwest = { version = "0.11", features = ["rustls", "stream"], default-features = false }
+reqwest = { version = "0.11", features = ["rustls-tls-webpki-roots", "stream"], default-features = false }
 tokio = { version = "1.0", features = ["rt-multi-thread", "macros"]}
 
 [profile.release]
