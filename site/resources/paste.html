@@ -68,10 +68,7 @@
     fetch('https://api.paste.valk.sh' + location.pathname)
         .then(response => response.text())
 	.then(function(data) {
-
-			
-            let contents = data.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
-            document.getElementById('paste').innerText = contents; 
+            document.getElementById('paste').innerText = data; 
 	});
 
 
