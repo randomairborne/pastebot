@@ -1,9 +1,13 @@
 services:
-  frontend:
+  api:
     image: ghcr.io/randomairborne/pastebot-api
     ports:
       - "8080:8080"
-  backend:
+  website:
+    image: ghcr.io/randomairborne/pastebot-website
+    ports:
+      - "5000:8080"
+  bot:
     image: ghcr.io/randomairborne/pastebot
     env_file:
       - .env

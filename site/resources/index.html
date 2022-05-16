@@ -51,18 +51,12 @@
 <body>
     <div class="center">
         <div class="menu">
-            <a href="/" class="btn">About</a>
             <a href="/invite" class="btn">Add to server</a>
             <a href="mailto:valk@randomairborne.dev" class="btn">Contact</a>
         </div>
     </div>
     <div class="paste">
-        <noscript>Unfortunately this paste site requires javascript. It's extremely minimal, just a single fetch call, so turning it on should be okay.</noscript>
+        
     </div>
 </body>
-<script>
-    fetch('https://api.paste.valk.sh' + location.pathname)
-        .then(response => response.text())
-        .then(data => document.getElementById('paste').innerText = data);
-</script>
 </html>
