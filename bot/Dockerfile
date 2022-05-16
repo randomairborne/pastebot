@@ -5,7 +5,7 @@ COPY . .
 
 RUN cargo build --release
 
-FROM debian:slim
+FROM debian:stable-slim
 
 COPY --from=builder /build/target/release/bot /bin/bot
 
