@@ -5,7 +5,7 @@ use serenity::model::gateway::Ready;
 use serenity::model::prelude::*;
 use serenity::prelude::*;
 
-const PASTE_SITE: &str = "https://pastebot.keyvalue.cc";
+const PASTE_SITE: &str = "https://paste.valk.sh";
 
 #[macro_use]
 extern crate tracing;
