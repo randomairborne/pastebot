@@ -1,4 +1,4 @@
-name: Build bot
+name: Build website
 on:
   push:
     branches:
