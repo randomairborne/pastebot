@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Correct env
         run:
-          echo "REPO=${GITHUB_REPOSITORY,,}-website" >>${GITHUB_ENV}
+          echo "REPO=${GITHUB_REPOSITORY,,}-web" >>${GITHUB_ENV}
 
       - name: Check out code into the proper directory
         uses: actions/checkout@v1
