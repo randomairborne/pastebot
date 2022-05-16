@@ -39,7 +39,7 @@ async fn get_file(
 ) -> Result<impl IntoResponse, Error> {
     let req = http
         .get(format!(
-            "https://cdn.discordapp.net/attachments/{}/{}/{}",
+            "https://cdn.discordapp.com/attachments/{}/{}/{}",
             channelid, messageid, filename
         ))
         .build()?;
