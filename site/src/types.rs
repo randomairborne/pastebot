@@ -69,10 +69,7 @@ where
 {
     fn into_response(self) -> Response {
         (
-            [(
-                header::CONTENT_TYPE,
-                HeaderValue::from_static("application/javascript"),
-            )],
+            [(header::CONTENT_TYPE, HeaderValue::from_static("image/png"))],
             self.0.into(),
         )
             .into_response()
@@ -80,6 +77,34 @@ where
 }
 
 impl<T> From<T> for Png<T> {
+    fn from(inner: T) -> Self {
+        Self(inner)
+    }
+}
+
+/// An icon response.
+///
+/// Will automatically get `Content-Type: image/x-icon`.
+#[derive(Clone, Copy, Debug)]
+pub struct Ico<T>(pub T);
+
+impl<T> IntoResponse for Ico<T>
+where
+    T: Into<Full<Bytes>>,
+{
+    fn into_response(self) -> Response {
+        (
+            [(
+                header::CONTENT_TYPE,
+                HeaderValue::from_static("image/x-icon"),
+            )],
+            self.0.into(),
+        )
+            .into_response()
+    }
+}
+
+impl<T> From<T> for Ico<T> {
     fn from(inner: T) -> Self {
         Self(inner)
     }

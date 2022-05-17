@@ -22,7 +22,6 @@ pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> 
     let mut rows: Vec<CreateActionRow> = Vec::new();
     let mut row = CreateActionRow::default();
     for attachment in &msg.attachments {
-        
         let mut button = CreateButton::default();
         button.style(ButtonStyle::Link);
         button.label(format!("View {}", attachment.filename));
