@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=JetBrains+Mono&display=swap" rel="preload" as="style" />
+    <link href="https://fonts.googleapis.com/css?family=JetBrains+Mono&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/highlight.css">
+    <link rel="stylesheet" href="/css/paste.css">
+    <meta name="robots" content="noindex">
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Discord file</title>
+    <script>let FF_FOUC_FIX;</script>
+</head>
+
+<body>
+    <div class="center">
+        <div class="menu">
+            <a href="/" class="btn">About</a>
+            <a href="/invite" class="btn">Add to server</a>
+            <a href="mailto:valk@randomairborne.dev" class="btn">Contact</a>
+        </div>
+    </div>
+    <pre class="paste">
+    	<code class="paste" id="paste">
+
+	</code>
+    </pre>
+</body>
+<script>
+    fetch('https://api.paste.valk.sh' + location.pathname)
+        .then(response => response.text())
+        .then(function (data) {
+            document.getElementById('paste').innerText = data;
+        });
+</script>
+<script src="/js/highlight.js"></script>
+<script>hljs.highlightAll();</script>
+
+</html>

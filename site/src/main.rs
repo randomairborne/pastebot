@@ -15,16 +15,17 @@ static BOT_INVITE: &str = "https://discord.com/api/oauth2/authorize?client_id=97
 
 #[tokio::main]
 async fn main() {
-    let paste = read("resources/paste.html").unwrap();
-    let index = read("resources/index.html").unwrap();
-    let about = read("resources/about.html").unwrap();
-    let privacy = read("resources/privacy.html").unwrap();
-    let terms = read("resources/terms.html").unwrap();
-    let css = read("resources/main.css").unwrap();
-    let highlight_js = read("resources/highlight.js").unwrap();
-    let highlight_css = read("resources/highlight.css").unwrap();
-    let logo = read("resources/logo.png").unwrap();
-    let favicon = read("resources/favicon.ico").unwrap();
+    let paste = read("resources/html/paste.html").unwrap();
+    let index = read("resources/html/index.html").unwrap();
+    let about = read("resources/html/about.html").unwrap();
+    let privacy = read("resources/html/privacy.html").unwrap();
+    let terms = read("resources/html/terms.html").unwrap();
+    let main_css = read("resources/css/main.css").unwrap();
+    let paste_css = read("resources/css/paste.css").unwrap();
+    let highlight_js = read("resources/js/highlight.js").unwrap();
+    let highlight_css = read("resources/css/highlight.css").unwrap();
+    let logo = read("resources/img/logo.png").unwrap();
+    let favicon = read("resources/img/favicon.ico").unwrap();
     let invite = Redirect::permanent(BOT_INVITE);
     let app = axum::Router::new()
         .route("/", get(move || async { Html(index) }))
@@ -32,8 +33,9 @@ async fn main() {
         .route("/about", get(move || async { Html(about) }))
         .route("/terms", get(move || async { Html(terms) }))
         .route("/privacy", get(move || async { Html(privacy) }))
-        .route("/css/main.css", get(move || async { Css(css) }))
-        .route("/logo.png", get(move || async { Png(logo) }))
+        .route("/css/main.css", get(move || async { Css(main_css) }))
+        .route("/css/paste.css", get(move || async { Css(paste_css) }))
+        .route("/img/logo.png", get(move || async { Png(logo) }))
         .route("/favicon.ico", get(move || async { Ico(favicon) }))
         .route(
             "/:channelid/:messageid/:filename",
