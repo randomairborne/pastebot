@@ -5,6 +5,6 @@ edition = "2021"
 
 [dependencies]
 serenity = { version = "0.11", default-features = false, features = ["client", "gateway", "rustls_backend", "model", "cache"] }
-tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = ["fmt", "env-filter"] }
+tracing = { version = "0.1", features = ["std", "release_max_level_info", "max_level_trace"], default-features = false }
+tracing-subscriber = { version = "0.3", features = ["fmt", "env-filter"], default-features = false }
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
