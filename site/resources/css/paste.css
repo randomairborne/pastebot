@@ -39,8 +39,6 @@ html {
 .paste {
     margin-left: 1%;
     margin-right: 1%;
-    justify-content: left;
-    align-items: left;
     color: #fff;
     white-space: pre-wrap;
     background: #000

@@ -18,6 +18,8 @@
             <a href="/" class="btn">About</a>
             <a href="/invite" class="btn">Add to server</a>
             <a href="mailto:valk@randomairborne.dev" class="btn">Contact</a>
+            Wrap lines <input type="checkbox" id="wrap" onclick="toggleWrap()">
+            Light mode <input type="checkbox" id="color" onclick="toggleColorMode()">
         </div>
     </div>
     <pre class="paste">
@@ -26,14 +28,16 @@
 	</code>
     </pre>
 </body>
+<script src="/js/highlight.js"></script>
 <script>
     fetch('https://api.paste.valk.sh' + location.pathname)
         .then(response => response.text())
         .then(function (data) {
-            document.getElementById('paste').innerText = data;
+            /* sanitizes and writes the html */
+            document.getElementById('paste').innerHTML = new Option(data).innerHTML;
+            hljs.highlightAll();
         });
 </script>
-<script src="/js/highlight.js"></script>
-<script>hljs.highlightAll();</script>
+
 
 </html>
