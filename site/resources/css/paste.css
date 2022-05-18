@@ -24,6 +24,7 @@ body {
     transition: inherit;
     background-color: inherit;
     color: inherit;
+    flex-wrap: wrap;
 }
 
 .btn {
