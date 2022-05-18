@@ -49,7 +49,7 @@ async fn main() {
             get(move || async { Css(highlight_css) }),
         );
 
-    let listen = SocketAddr::from(([127, 0, 0, 1], 8080));
+    let listen = SocketAddr::from(([0, 0, 0, 0], 8080));
     println!("[INFO] Listening on http://{}", &listen);
     axum::Server::bind(&listen)
         .serve(app.into_make_service())
