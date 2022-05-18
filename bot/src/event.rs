@@ -21,8 +21,13 @@ pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> 
     }
     let mut rows: Vec<CreateActionRow> = Vec::new();
     let mut row = CreateActionRow::default();
-    for attachment in &msg.attachments {
-        let mut button = CreateButton::default();
+    for attachment in &msg.attachments { 
+        if let Some(ctype) = attachment.content_type {
+            if let Some(charset) = ctype.split("; ").get(1) {
+            if charset != "charset=utf-8"
+                continue;
+            }
+        }
         button.style(ButtonStyle::Link);
         button.label(format!("View {}", attachment.filename));
         button.emoji('📜');
