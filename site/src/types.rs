@@ -33,9 +33,9 @@ impl<T> From<T> for Css<T> {
 ///
 /// Will automatically get `Content-Type: application/javascript`.
 #[derive(Clone, Copy, Debug)]
-pub struct JavaScript<T>(pub T);
+pub struct JS<T>(pub T);
 
-impl<T> IntoResponse for JavaScript<T>
+impl<T> IntoResponse for JS<T>
 where
     T: Into<Full<Bytes>>,
 {
@@ -51,7 +51,7 @@ where
     }
 }
 
-impl<T> From<T> for JavaScript<T> {
+impl<T> From<T> for JS<T> {
     fn from(inner: T) -> Self {
         Self(inner)
     }

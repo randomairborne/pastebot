@@ -12,22 +12,22 @@
     <script>let FF_FOUC_FIX;</script>
 </head>
 
-<body>
-    <div class="center">
-        <div class="menu">
+<body onload="onLoad()">
+    <div class="center" id="menu">
+        <div class="menu" id="menu">
             <a href="/" class="btn">About</a>
             <a href="/invite" class="btn">Add to server</a>
             <a href="mailto:valk@randomairborne.dev" class="btn">Contact</a>
-            Wrap lines <input type="checkbox" id="wrap" onclick="toggleWrap()">
-            Light mode <input type="checkbox" id="color" onclick="toggleColorMode()">
+            <button class="btn" id="color" onclick="toggleColorMode()">Light mode</button>
         </div>
     </div>
-    <pre class="paste">
+    <pre class="paste" id="pre">
     	<code class="paste" id="paste">
 
 	</code>
     </pre>
 </body>
+<script src="/js/color.js"></script>
 <script src="/js/highlight.js"></script>
 <script>
     fetch('https://api.paste.valk.sh' + location.pathname)
@@ -38,6 +38,5 @@
             hljs.highlightAll();
         });
 </script>
-
 
 </html>

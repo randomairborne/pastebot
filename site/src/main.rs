@@ -9,7 +9,7 @@ use axum::{
     routing::get,
 };
 
-use types::{Css, Ico, JavaScript, Png};
+use types::{Css, Ico, Png, JS};
 
 static BOT_INVITE: &str = "https://discord.com/api/oauth2/authorize?client_id=975460814007963738&permissions=0&scope=applications.commands%20bot";
 
@@ -22,6 +22,7 @@ async fn main() {
     let terms = read("resources/html/terms.html").unwrap();
     let main_css = read("resources/css/main.css").unwrap();
     let paste_css = read("resources/css/paste.css").unwrap();
+    let color_js = read("resources/js/color.js").unwrap();
     let highlight_js = read("resources/js/highlight.js").unwrap();
     let highlight_css = read("resources/css/highlight.css").unwrap();
     let logo = read("resources/img/logo.png").unwrap();
@@ -35,22 +36,20 @@ async fn main() {
         .route("/privacy", get(move || async { Html(privacy) }))
         .route("/css/main.css", get(move || async { Css(main_css) }))
         .route("/css/paste.css", get(move || async { Css(paste_css) }))
+        .route("/js/color.js", get(move || async { JS(color_js) }))
         .route("/img/logo.png", get(move || async { Png(logo) }))
         .route("/favicon.ico", get(move || async { Ico(favicon) }))
         .route(
             "/:channelid/:messageid/:filename",
             get(move || async { Html(paste) }),
         )
-        .route(
-            "/js/highlight.js",
-            get(move || async { JavaScript(highlight_js) }),
-        )
+        .route("/js/highlight.js", get(move || async { JS(highlight_js) }))
         .route(
             "/css/highlight.css",
             get(move || async { Css(highlight_css) }),
         );
 
-    let listen = SocketAddr::from(([0, 0, 0, 0], 8080));
+    let listen = SocketAddr::from(([127, 0, 0, 1], 8080));
     println!("[INFO] Listening on http://{}", &listen);
     axum::Server::bind(&listen)
         .serve(app.into_make_service())
