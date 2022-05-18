@@ -23,11 +23,7 @@ pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> 
     let mut row = CreateActionRow::default();
     for attachment in &msg.attachments {
         if let Some(ctype) = &attachment.content_type {
-            if let Some(charset) = ctype.split("; ").collect::<Vec<&str>>().get(1) {
-                if charset != &"charset=utf-8" {
-                    continue;
-                }
-            } else {
+            if !ctype.contains("charset") {
                 continue;
             }
         }
