@@ -19,6 +19,7 @@
             <a href="/invite" class="btn">Add to server</a>
             <a href="mailto:valk@randomairborne.dev" class="btn">Contact</a>
             <button class="btn" id="color" onclick="toggleColorMode()">Light mode</button>
+            <button class="btn" onclick="hljs.highlightAll();">Highlight syntax</button>
         </div>
     </div>
     <pre class="paste" id="pre">
@@ -35,8 +36,6 @@
         .then(function (data) {
             /* sanitizes and writes the html */
             document.getElementById('paste').innerHTML = new Option(data).innerHTML;
-            hljs.highlightAll();
         });
 </script>
-
 </html>
