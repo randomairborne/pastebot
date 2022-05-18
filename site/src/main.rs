@@ -40,7 +40,7 @@ async fn main() {
         .route("/img/logo.png", get(move || async { Png(logo) }))
         .route("/favicon.ico", get(move || async { Ico(favicon) }))
         .route(
-            "/:channelid/:messageid/:filename",
+            "/:channelid/:attachmentid/:filename",
             get(move || async { Html(paste) }),
         )
         .route("/js/highlight.js", get(move || async { JS(highlight_js) }))
