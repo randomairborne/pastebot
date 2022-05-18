@@ -21,12 +21,14 @@ pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> 
     }
     let mut rows: Vec<CreateActionRow> = Vec::new();
     let mut row = CreateActionRow::default();
-    for attachment in &msg.attachments { 
+    for attachment in &msg.attachments {
         if let Some(ctype) = &attachment.content_type {
             if let Some(charset) = ctype.split("; ").collect::<Vec<&str>>().get(1) {
-            if charset != &"charset=utf-8" {
+                if charset != &"charset=utf-8" {
                     continue;
                 }
+            } else {
+                continue;
             }
         }
         let mut button = CreateButton::default();
@@ -62,7 +64,6 @@ pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> 
             .allowed_mentions(|am| am.empty_parse())
             .components(|c| {
                 for actionrow in rows {
-                    println!("{:?}", actionrow);
                     c.add_action_row(actionrow);
                 }
                 c
