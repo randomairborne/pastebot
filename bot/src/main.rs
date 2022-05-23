@@ -27,8 +27,21 @@ impl EventHandler for Handler {
         message_id: MessageId,
         _guild_id: Option<GuildId>,
     ) {
-        if let Err(err) = event::message_delete(ctx, channel_id, message_id).await {
-            error!("{:?}", err)
+        if let Ok(messages) = channel_id
+            .messages(&ctx.http, |get| get.after(message_id).limit(10))
+            .await
+        {
+            for message in messages {
+                if message.is_own(&ctx.cache) {
+                    if let Some(ref referenced) = message.referenced_message {
+                        if referenced.id == message.id {
+                            if let Err(err) = message.delete(&ctx.http).await {
+                                error!("Failed to delete message: {:?}", err);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

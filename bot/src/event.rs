@@ -1,11 +1,7 @@
 use serenity::{
     builder::{CreateActionRow, CreateButton},
     client::Context,
-    model::{
-        channel::Message,
-        id::{ChannelId, MessageId},
-        interactions::message_component::ButtonStyle,
-    },
+    model::{channel::Message, interactions::message_component::ButtonStyle},
 };
 
 pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> {
@@ -71,23 +67,5 @@ pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> 
             .reference_message(&msg)
         })
         .await?;
-    Ok(())
-}
-
-pub async fn message_delete(
-    ctx: Context,
-    channel_id: ChannelId,
-    message_id: MessageId,
-) -> Result<(), serenity::Error> {
-    let messages = channel_id
-        .messages(ctx.http, |get| get.after(message_id).limit(10))
-        .await?;
-    for message in messages {
-        if message.is_own(&ctx.cache) {
-            if let Some(referenced) = message.referenced_message {
-                if referenced.id == message.id {}
-            }
-        }
-    }
     Ok(())
 }
