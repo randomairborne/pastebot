@@ -5,6 +5,9 @@ use serenity::{
 };
 
 pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> {
+    lazy_static::lazy_static! {
+        static ref PASTE_SITE: String = std::env::var("PASTEBIN_URL").expect("No pastebin URL set!");
+    }
     if msg.attachments.is_empty() {
         return Ok(());
     }
@@ -19,7 +22,7 @@ pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> 
     let mut row = CreateActionRow::default();
     for attachment in &msg.attachments {
         if let Some(ctype) = &attachment.content_type {
-            if !ctype.contains("charset") {
+            if !ctype.to_ascii_lowercase().contains("charset=utf-8") {
                 continue;
             }
         }
@@ -29,7 +32,7 @@ pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> 
         button.emoji('📜');
         button.url(format!(
             "{}/{}/{}/{}",
-            crate::PASTE_SITE,
+            *PASTE_SITE,
             msg.channel_id,
             attachment.id,
             attachment.filename

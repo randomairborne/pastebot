@@ -5,8 +5,6 @@ use serenity::model::gateway::Ready;
 use serenity::model::prelude::*;
 use serenity::prelude::*;
 
-const PASTE_SITE: &str = "https://paste.valk.sh";
-
 #[macro_use]
 extern crate tracing;
 
@@ -64,6 +62,9 @@ async fn main() {
     .event_handler(Handler)
     .await
     .expect("Error creating client");
+
+    // This checks now so we can safely expect() in the message handler
+    std::env::var("PASTEBIN_URL").expect("No pastebin URL set!");
 
     if let Err(why) = client.start_autosharded().await {
         println!("Client error: {:?}", why);
