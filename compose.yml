@@ -15,7 +15,7 @@ services:
         - "traefik.enable=true"
         - "traefik.http.routers.giveip.rule=Host(`api.paste.valk.sh`)"
         - "traefik.http.routers.giveip.entrypoints=https"
-        - "traefik.http.routers.giveip.tls.certresolver=resolver"
+        - "traefik.http.routers.giveip.tls.certresolver=letsencrypt"
         - "traefik.http.services.giveip.loadbalancer.server.port=8080"
   website:
     image: ghcr.io/randomairborne/pastebot-web
@@ -32,7 +32,7 @@ services:
         - "traefik.enable=true"
         - "traefik.http.routers.giveip.rule=Host(`paste.valk.sh`)"
         - "traefik.http.routers.giveip.entrypoints=https"
-        - "traefik.http.routers.giveip.tls.certresolver=resolver"
+        - "traefik.http.routers.giveip.tls.certresolver=letsencrypt"
         - "traefik.http.services.giveip.loadbalancer.server.port=8080"
   bot:
     image: ghcr.io/randomairborne/pastebot
