@@ -13,7 +13,7 @@ services:
           - "node.role==manager"
       labels:
         - "traefik.enable=true"
-        - "traefik.http.services.pbotapi.loadbalancer.server.port=8080"
+        - "traefik.http.services.pbotapi-service.loadbalancer.server.port=8080"
         - "traefik.http.routers.pbotapi.rule=Host(`api.paste.valk.sh`)"
         - "traefik.http.routers.pbotapi.entrypoints=https"
         - "traefik.http.routers.pbotapi.tls.certresolver=letsencrypt"
@@ -30,7 +30,7 @@ services:
           - "node.role==manager"
       labels:
         - "traefik.enable=true"
-        - "traefik.http.services.pbotweb.loadbalancer.server.port=8080"
+        - "traefik.http.services.pbotweb-service.loadbalancer.server.port=8080"
         - "traefik.http.routers.pbotweb.rule=Host(`paste.valk.sh`)"
         - "traefik.http.routers.pbotweb.entrypoints=https"
         - "traefik.http.routers.pbotweb.tls.certresolver=letsencrypt"
