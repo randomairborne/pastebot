@@ -5,7 +5,6 @@ services:
     ports:
       - "8081:8080"
     networks:
-      - default
       - ingress_default
     deploy:
       placement:
