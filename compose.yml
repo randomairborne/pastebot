@@ -1,12 +1,39 @@
+version: "3"
 services:
   api:
     image: ghcr.io/randomairborne/pastebot-api
     ports:
-      - "8080:8080"
+      - ":8080"
+    networks:
+      - default
+      - ingress_default
+    deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.giveip.rule=Host(`api.paste.valk.sh`)"
+        - "traefik.http.routers.giveip.entrypoints=https"
+        - "traefik.http.routers.giveip.tls.certresolver=resolver"
+        - "traefik.http.services.giveip.loadbalancer.server.port=8080"
   website:
     image: ghcr.io/randomairborne/pastebot-web
     ports:
-      - "5000:8080"
+      - ":8080"
+    networks:
+      - default
+      - ingress_default
+    deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.giveip.rule=Host(`paste.valk.sh`)"
+        - "traefik.http.routers.giveip.entrypoints=https"
+        - "traefik.http.routers.giveip.tls.certresolver=resolver"
+        - "traefik.http.services.giveip.loadbalancer.server.port=8080"
   bot:
     image: ghcr.io/randomairborne/pastebot
     env_file:
