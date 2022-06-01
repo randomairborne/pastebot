@@ -8,7 +8,7 @@ pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> 
     lazy_static::lazy_static! {
         static ref PASTE_SITE: String = std::env::var("PASTEBIN_URL").expect("No pastebin URL set!");
     }
-    if msg.attachments.is_empty() {
+    if msg.attachments.is_empty() || msg.author.bot {
         return Ok(());
     }
     if let Some(channel) = msg.channel_id.to_channel(&ctx.http).await?.guild() {
