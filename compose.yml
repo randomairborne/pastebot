@@ -38,3 +38,6 @@ services:
     image: ghcr.io/randomairborne/pastebot
     env_file:
       - .env
+networks:
+  ingress_default:
+    external: true
