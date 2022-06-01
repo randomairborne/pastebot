@@ -37,7 +37,8 @@ services:
   bot:
     image: ghcr.io/randomairborne/pastebot
     deploy:
-      - "traefik.enable=false"
+      labels:
+        - "traefik.enable=false"
 networks:
   ingress_default:
     external: true
