@@ -3,26 +3,26 @@ services:
   api:
     image: ghcr.io/randomairborne/pastebot-api
     ports:
-      - "8080:8080"
+      - "8081:8080"
     networks:
       - proxy
     deploy:
       labels:
         - "traefik.enable=true"
-        - "traefik.http.services.pbotapi.loadbalancer.server.port=8080"
+        - "traefik.http.services.pbotapi.loadbalancer.server.port=8081"
         - "traefik.http.routers.pbotapi.rule=Host(`api.paste.valk.sh`)"
         - "traefik.http.routers.pbotapi.entrypoints=https"
         - "traefik.http.routers.pbotapi.tls.certresolver=letsencrypt"
   website:
     image: ghcr.io/randomairborne/pastebot-web
     ports:
-      - "8080:8080"
+      - "8082:8080"
     networks:
       - proxy
     deploy:
       labels:
         - "traefik.enable=true"
-        - "traefik.http.services.pbotweb.loadbalancer.server.port=8080"
+        - "traefik.http.services.pbotweb.loadbalancer.server.port=8082"
         - "traefik.http.routers.pbotweb.rule=Host(`paste.valk.sh`)"
         - "traefik.http.routers.pbotweb.entrypoints=https"
         - "traefik.http.routers.pbotweb.tls.certresolver=letsencrypt"
