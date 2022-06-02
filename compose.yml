@@ -31,6 +31,9 @@ services:
         - traefik.http.middlewares.pbotweb.redirectscheme.scheme=https
   bot:
     image: ghcr.io/randomairborne/pastebot
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - PASTEBIN_URL=${PASTEBIN_URL}
     deploy:
       labels:
         - "traefik.enable=false"
