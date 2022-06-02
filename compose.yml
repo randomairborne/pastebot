@@ -8,11 +8,13 @@ services:
       - proxy
     deploy:
       labels:
-        - "traefik.enable=true"
-        - "traefik.http.services.pbotapi.loadbalancer.server.port=8081"
-        - "traefik.http.routers.pbotapi.rule=Host(`api.paste.valk.sh`)"
-        - "traefik.http.routers.pbotapi.entrypoints=https"
-        - "traefik.http.routers.pbotapi.tls.certresolver=letsencrypt"
+        - traefik.enable=true"
+        - traefik.http.services.pbotapi.loadbalancer.server.port=8081
+        - traefik.http.routers.pbotapi.rule=Host(`api.${PASTEBIN}`)
+        - traefik.http.routers.pbotapi.entrypoints=https
+        - traefik.http.routers.pbotapi.tls.certresolver=letsencrypt
+        - traefik.http.middlewares.pbotapi.redirectscheme.scheme=https
+        - traefik.http.middlewares.pbotapi.headers.accessControlAllowOriginList=[https://${PASTEBIN}, http://${PASTEBIN}]
   website:
     image: ghcr.io/randomairborne/pastebot-web
     ports:
@@ -21,11 +23,12 @@ services:
       - proxy
     deploy:
       labels:
-        - "traefik.enable=true"
-        - "traefik.http.services.pbotweb.loadbalancer.server.port=8082"
-        - "traefik.http.routers.pbotweb.rule=Host(`paste.valk.sh`)"
-        - "traefik.http.routers.pbotweb.entrypoints=https"
-        - "traefik.http.routers.pbotweb.tls.certresolver=letsencrypt"
+        - traefik.enable=true"
+        - traefik.http.services.pbotweb.loadbalancer.server.port=8082
+        - traefik.http.routers.pbotweb.rule=Host(`${PASTEBIN}`)
+        - traefik.http.routers.pbotweb.entrypoints=https
+        - traefik.http.routers.pbotweb.tls.certresolver=letsencrypt
+        - traefik.http.middlewares.pbotweb.redirectscheme.scheme=https
   bot:
     image: ghcr.io/randomairborne/pastebot
     deploy:

@@ -6,7 +6,7 @@ use serenity::{
 
 pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> {
     lazy_static::lazy_static! {
-        static ref PASTE_SITE: String = std::env::var("PASTEBIN_URL").expect("No pastebin URL set!");
+        static ref PASTE_SITE: String = std::env::var("PASTEBIN").expect("No pastebin domain set!");
     }
     if msg.attachments.is_empty() || msg.author.bot {
         return Ok(());
@@ -31,7 +31,7 @@ pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> 
         button.label(format!("View {}", attachment.filename));
         button.emoji('📜');
         button.url(format!(
-            "{}/{}/{}/{}",
+            "https://{}/{}/{}/{}",
             *PASTE_SITE,
             msg.channel_id,
             attachment.id,
