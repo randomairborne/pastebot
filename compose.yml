@@ -5,11 +5,8 @@ services:
     ports:
       - "8081:8080"
     networks:
-      - ingress_default
+      - proxy
     deploy:
-      placement:
-        constraints:
-          - "node.role==manager"
       labels:
         - "traefik.enable=true"
         - "traefik.http.services.pbotapi.loadbalancer.server.port=8081"
@@ -21,12 +18,8 @@ services:
     ports:
       - "8082:8080"
     networks:
-      - default
-      - ingress_default
+      - proxy
     deploy:
-      placement:
-        constraints:
-          - "node.role==manager"
       labels:
         - "traefik.enable=true"
         - "traefik.http.services.pbotweb.loadbalancer.server.port=8082"
@@ -39,5 +32,5 @@ services:
       labels:
         - "traefik.enable=false"
 networks:
-  ingress_default:
+  proxy:
     external: true
