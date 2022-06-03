@@ -8,18 +8,20 @@ services:
       - proxy
     deploy:
       labels:
-        traefik.enable: true
-        traefik.http.services.pbotapi.loadbalancer.server.port: 8080
-        traefik.http.routers.pbotapi.rule: Host(`api.${PASTEBIN}`)
-        traefik.http.routers.pbotapi.entrypoints: https
-        traefik.http.routers.pbotapi.tls.certresolver: letsencrypt
-        traefik.http.middlewares.pbotapi.redirectscheme.scheme: https
-        traefik.http.middlewares.pbotapi.headers.accessControlAllowOriginList: https://${PASTEBIN},http://${PASTEBIN}
-        traefik.http.routers.pbotapi-insecure.rule: Host(`api.${PASTEBIN}`)
-        traefik.http.routers.pbotapi-insecure.entrypoints: http
-        traefik.http.routers.pbotapi-insecure.middlewares: https_redirect
-        traefik.http.middlewares.https_redirect.redirectscheme.scheme: https
-        traefik.http.middlewares.https_redirect.redirectscheme.permanent: "true"
+        traefik:
+          enable: "true"
+          http:
+            services.pbotapi.loadbalancer.server.port: 8080
+            routers.pbotapi.rule: Host(`api.${PASTEBIN}`)
+            routers.pbotapi.entrypoints: https
+            routers.pbotapi.tls.certresolver: letsencrypt
+            routers.pbotapi-insecure.rule: Host(`api.${PASTEBIN}`)
+            routers.pbotapi-insecure.entrypoints: http
+            routers.pbotapi-insecure.middlewares: https_redirect
+            middlewares.pbotapi.redirectscheme.scheme: https
+            middlewares.pbotapi.headers.accessControlAllowOriginList: https://${PASTEBIN},http://${PASTEBIN}
+            middlewares.https_redirect.redirectscheme.scheme: https
+            middlewares.https_redirect.redirectscheme.permanent: "true"
   website:
     image: ghcr.io/randomairborne/pastebot-web
     ports:
@@ -28,16 +30,18 @@ services:
       - proxy
     deploy:
       labels:
-        traefik.enable: true
-        traefik.http.services.pbotweb.loadbalancer.server.port: 8080
-        traefik.http.routers.pbotweb.rule: Host(`${PASTEBIN}`)
-        traefik.http.routers.pbotweb.entrypoints: https
-        traefik.http.routers.pbotweb.tls.certresolver: letsencrypt
-        traefik.http.routers.pbotweb-insecure.rule: Host(`${PASTEBIN}`)
-        traefik.http.routers.pbotweb-insecure.entrypoints: http
-        traefik.http.routers.pbotweb-insecure.middlewares: https_redirect
-        traefik.http.middlewares.https_redirect.redirectscheme.scheme: https
-        traefik.http.middlewares.https_redirect.redirectscheme.permanent: "true"
+        traefik:
+          enable: "true"
+          http:
+            services.pbotweb.loadbalancer.server.port: 8080
+            routers.pbotweb.rule: Host(`${PASTEBIN}`)
+            routers.pbotweb.entrypoints: https
+            routers.pbotweb.tls.certresolver: letsencrypt
+            routers.pbotweb-insecure.rule: Host(`${PASTEBIN}`)
+            routers.pbotweb-insecure.entrypoints: http
+            routers.pbotweb-insecure.middlewares: https_redirect
+            middlewares.https_redirect.redirectscheme.scheme: https
+            middlewares.https_redirect.redirectscheme.permanent: "true"
   bot:
     image: ghcr.io/randomairborne/pastebot
     environment:
@@ -45,7 +49,7 @@ services:
       PASTEBIN: ${PASTEBIN}
     deploy:
       labels:
-        traefik.enable: false
+        traefik.enable: "false"
 networks:
   proxy:
     external: true
