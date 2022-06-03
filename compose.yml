@@ -13,7 +13,7 @@ services:
         traefik.http.routers.pbotapi.rule: Host(`api.${PASTEBIN}`)
         traefik.http.routers.pbotapi.entrypoints: https
         traefik.http.routers.pbotapi.tls.certresolver: letsencrypt
-        traefik.http.middlewares.pbotapi.headers.Access-Control-Allow-Origin: https://${PASTEBIN}
+        traefik.http.middlewares.pbotapi.headers.customresponseheaders.Access-Control-Allow-Origin: https://${PASTEBIN}
         traefik.http.routers.pbotapi-insecure.rule: Host(`api.${PASTEBIN}`)
         traefik.http.routers.pbotapi-insecure.entrypoints: http
         traefik.http.routers.pbotapi-insecure.middlewares: https_redirect
