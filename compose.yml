@@ -45,7 +45,7 @@ services:
       - PASTEBIN=${PASTEBIN}
     deploy:
       labels:
-        - traefik.enable: false
+        - traefik.enable=false
 networks:
   proxy:
     external: true
