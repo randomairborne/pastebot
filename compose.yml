@@ -33,7 +33,7 @@ services:
     image: ghcr.io/randomairborne/pastebot
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
-      - PASTEBIN_URL=${PASTEBIN_URL}
+      - PASTEBIN=${PASTEBIN}
     deploy:
       labels:
         - "traefik.enable=false"
