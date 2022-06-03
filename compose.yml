@@ -18,8 +18,8 @@ services:
         traefik.http.routers.pbotapi-insecure.middlewares: https_redirect
         traefik.http.middlewares.https_redirect.redirectscheme.scheme: https
         traefik.http.middlewares.https_redirect.redirectscheme.permanent: "true"
-        traefik.http.middlewares.pbotapi.headers.customresponseheaders.Access-Control-Allow-Origin: https://${PASTEBIN}
-        
+        traefik.http.middlewares.pbotapi.headers.accesscontrolalloworiginlist: https://${PASTEBIN}
+
   website:
     image: ghcr.io/randomairborne/pastebot-web
     ports:
