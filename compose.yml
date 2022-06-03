@@ -18,7 +18,7 @@ services:
         traefik.http.middlewares.https-redirect.redirectscheme.scheme: https
         traefik.http.middlewares.https-redirect.redirectscheme.permanent: "true"
         traefik.http.middlewares.pbotapi-mw.headers.accesscontrolalloworiginlist: https://${PASTEBIN}
-        traefik.http.routers.pbotapi-insecure.middlewares: https_redirect,pbotapi-mw
+        traefik.http.routers.pbotapi-insecure.middlewares: https_redirect
         traefik.http.routers.pbotapi.middlewares: pbotapi-mw
 
   website:
