@@ -15,10 +15,11 @@ services:
         traefik.http.routers.pbotapi.tls.certresolver: letsencrypt
         traefik.http.routers.pbotapi-insecure.rule: Host(`api.${PASTEBIN}`)
         traefik.http.routers.pbotapi-insecure.entrypoints: http
-        traefik.http.routers.pbotapi-insecure.middlewares: https_redirect
-        traefik.http.middlewares.https_redirect.redirectscheme.scheme: https
-        traefik.http.middlewares.https_redirect.redirectscheme.permanent: "true"
-        traefik.http.middlewares.pbotapi.headers.accesscontrolalloworiginlist: https://${PASTEBIN}
+        traefik.http.middlewares.https-redirect.redirectscheme.scheme: https
+        traefik.http.middlewares.https-redirect.redirectscheme.permanent: "true"
+        traefik.http.middlewares.pbotapi-mw.headers.accesscontrolalloworiginlist: https://${PASTEBIN}
+        traefik.http.routers.pbotapi-insecure.middlewares: https_redirect,pbotapi-mw
+        traefik.http.routers.pbotapi.middlewares: pbotapi-mw
 
   website:
     image: ghcr.io/randomairborne/pastebot-web
@@ -35,9 +36,9 @@ services:
         traefik.http.routers.pbotweb.tls.certresolver: letsencrypt
         traefik.http.routers.pbotweb-insecure.rule: Host(`${PASTEBIN}`)
         traefik.http.routers.pbotweb-insecure.entrypoints: http
-        traefik.http.routers.pbotweb-insecure.middlewares: https_redirect
         traefik.http.middlewares.https_redirect.redirectscheme.scheme: https
         traefik.http.middlewares.https_redirect.redirectscheme.permanent: "true"
+        traefik.http.routers.pbotweb-insecure.middlewares: https_redirect
   bot:
     image: ghcr.io/randomairborne/pastebot
     environment:
