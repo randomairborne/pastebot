@@ -7,8 +7,8 @@ RUN cargo build --release
 
 FROM debian:stable-slim
 
-COPY --from=builder /build/target/release/api /bin/api
+COPY --from=builder /build/target/release/web /bin/web
 
 EXPOSE 8080
 
-CMD ["/bin/api"]
+CMD ["/bin/web"]

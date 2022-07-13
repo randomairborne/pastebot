@@ -1,4 +1,4 @@
-name: Build website
+name: Build Web Service
 on:
   push:
     branches:
@@ -34,7 +34,7 @@ jobs:
       - name: Build container
         uses: docker/build-push-action@v2
         with:
-          context: ./site/
+          context: ./web/
           push: true
           tags: ghcr.io/${{ env.REPO }}:latest
           platforms: linux/amd64

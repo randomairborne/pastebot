@@ -6,7 +6,7 @@ use serenity::{
 
 pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> {
     lazy_static::lazy_static! {
-        static ref PASTE_SITE: String = std::env::var("PASTEBIN").unwrap_or_else(|_| "No pastebin domain set!".to_string());
+        static ref PASTE_SITE: String = std::env::var("PASTEBIN").unwrap();
     }
     if msg.attachments.is_empty() || msg.author.bot {
         return Ok(());

@@ -66,7 +66,7 @@ async fn main() {
     // This checks now so we can safely expect() in the message handler
     std::env::var("PASTEBIN").expect("No pastebin domain set!");
 
-    if let Err(why) = client.start_autosharded().await {
+    if let Err(why) = client.start().await {
         println!("Client error: {:?}", why);
     }
 }

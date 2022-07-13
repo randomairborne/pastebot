@@ -6,11 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: "cargo"
-    directory: "/api/"
-    schedule:
-      interval: "daily"
-  - package-ecosystem: "cargo"
-    directory: "/site/"
+    directory: "/web/"
     schedule:
       interval: "daily"
   - package-ecosystem: "cargo"

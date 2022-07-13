@@ -6,7 +6,7 @@ use axum::{
     body::StreamBody,
     extract::Path,
     http::{HeaderMap, HeaderValue, StatusCode},
-    response::IntoResponse,
+    response::{Html, IntoResponse, Redirect},
     routing::get,
 };
 
@@ -21,10 +21,34 @@ async fn main() {
         ))
         .build()
         .expect("Failed to create HTTP client");
-    let app = axum::Router::new().route(
-        "/:channelid/:messageid/:filename",
-        get(move |path| get_file(path, http_client)),
-    );
+    let app = axum::Router::new()
+        .route(
+            "/",
+            get(|| async { Redirect::permanent("https://github.com/randomairborne/pastebot") }),
+        )
+        .route(
+            "/logo.png",
+            get(move || async {
+                (
+                    [("Content-Type", "image/png")],
+                    include_bytes!("resources/paste.html").to_vec(),
+                )
+            }),
+        )
+        .route("/jetbrains.woff2", get(move || async {
+            (
+                [("Content-Type", "font/woff2")],
+                include_bytes!("resources/jetbrains.woff2").to_vec(),
+            )
+        }),)
+        .route(
+            "/api/:channelid/:attachmentid/:filename",
+            get(move |path| get_file(path, http_client)),
+        )
+        .route(
+            "/:channelid/:attachmentid/:filename",
+            get(move || async { Html(include_str!("resources/paste.html").to_string()) }),
+        );
     let listen = SocketAddr::from(([0, 0, 0, 0], 8080));
     println!("[INFO] Listening on http://{}", &listen);
     axum::Server::bind(&listen)
