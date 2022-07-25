@@ -37,4 +37,4 @@ jobs:
           context: ./bot/
           push: true
           tags: ghcr.io/${{ env.REPO }}:latest
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
