@@ -100,5 +100,6 @@ jobs:
         with:
           context: ./${{ matrix.module }}/
           push: true
-          tags: ghcr.io/${{ env.REPO }}-{{ matrix.module }}:latest
+          tags: ghcr.io/${{ env.REPO }}-${{ matrix.module }}:latest
           platforms: linux/arm64,linux/amd64
+
