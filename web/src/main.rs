@@ -35,12 +35,15 @@ async fn main() {
                 )
             }),
         )
-        .route("/jetbrains.woff2", get(move || async {
-            (
-                [("Content-Type", "font/woff2")],
-                include_bytes!("resources/jetbrains.woff2").to_vec(),
-            )
-        }),)
+        .route(
+            "/jetbrains.woff2",
+            get(move || async {
+                (
+                    [("Content-Type", "font/woff2")],
+                    include_bytes!("resources/jetbrains.woff2").to_vec(),
+                )
+            }),
+        )
         .route(
             "/api/:channelid/:attachmentid/:filename",
             get(move |path| get_file(path, http_client)),

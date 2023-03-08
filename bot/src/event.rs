@@ -32,10 +32,7 @@ pub async fn message(ctx: Context, msg: Message) -> Result<(), serenity::Error> 
         button.emoji('📜');
         button.url(format!(
             "https://{}/{}/{}/{}",
-            *PASTE_SITE,
-            msg.channel_id,
-            attachment.id,
-            attachment.filename
+            *PASTE_SITE, msg.channel_id, attachment.id, attachment.filename
         ));
         row.add_button(button);
         if row.0.len() >= 5 {
