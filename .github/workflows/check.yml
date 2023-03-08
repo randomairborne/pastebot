@@ -1,26 +1,32 @@
-
-name: Cargo Check
+name: PR check
 on:
-  push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
+  workflow_dispatch:
+  workflow_call:
+
+env:
+  SQLX_OFFLINE: true
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out code into the proper directory
+        uses: actions/checkout@v3
 
-      - name: Cache Packages
-        uses: Swatinem/rust-cache@v1.0.1
-
-      - uses: actions-rs/toolchain@v1
+      - name: Install cargo
+        uses: dtolnay/rust-toolchain@stable
         with:
-          profile: minimal
-          toolchain: stable
-          override: true
+          components: rustfmt, clippy
 
-      - name: Build
-        run: cargo check
+      - name: Cache rust
+        uses: Swatinem/rust-cache@v2
+
+      - name: Check formatting
+        run: cargo fmt --check
+
+      - name: Check build
+        run: cargo clippy
+
+      - name: Run tests
+        run: cargo test

@@ -1,14 +1,5 @@
-FROM rust AS builder
+FROM alpine
+ARG TARGETARCH
+COPY /${TARGETARCH}-executables/web /usr/bin/
 
-WORKDIR /build
-COPY . .
-
-RUN cargo build --release
-
-FROM debian:stable-slim
-
-COPY --from=builder /build/target/release/web /bin/web
-
-EXPOSE 8080
-
-CMD ["/bin/web"]
+ENTRYPOINT "/usr/bin/web"

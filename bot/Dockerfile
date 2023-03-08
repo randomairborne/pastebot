@@ -1,12 +1,5 @@
-FROM rust AS builder
+FROM alpine
+ARG TARGETARCH
+COPY /${TARGETARCH}-executables/bot /usr/bin/
 
-WORKDIR /build
-COPY . .
-
-RUN cargo build --release
-
-FROM debian:stable-slim
-
-COPY --from=builder /build/target/release/bot /bin/bot
-
-CMD ["/bin/bot"]
+ENTRYPOINT "/usr/bin/bot"
