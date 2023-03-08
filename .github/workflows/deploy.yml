@@ -82,8 +82,8 @@ jobs:
           name: ${{ matrix.module }}-x86_64-executables
           path: ./${{ matrix.module }}/amd64-executables
 
-      - name: chmod +x
-        run: chmod +x ./*executables/*
+      - name: Mark programs as executable
+        run: chmod +x .${{ matrix.module }}/*executables/*
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
