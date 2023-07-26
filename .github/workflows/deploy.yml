@@ -53,7 +53,7 @@ jobs:
         with:
           name: ${{ matrix.arch }}-executables
           path: |
-            target/${{ matrix.arch }}-unknown-linux-musl/release/${{ matrix.module }}
+            target/${{ matrix.arch }}-unknown-linux-musl/release/pastebot
 
   publish:
     runs-on: ubuntu-latest
