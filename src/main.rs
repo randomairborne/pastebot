@@ -8,7 +8,6 @@ use std::{
 };
 use tokio::task::JoinSet;
 use tracing_subscriber::{prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt};
-use twilight_cache_inmemory::{InMemoryCacheBuilder, ResourceType};
 use twilight_gateway::{CloseFrame, Config, Event, Intents, Shard};
 use twilight_model::{
     channel::message::{
@@ -39,10 +38,6 @@ async fn main() {
     let client = twilight_http::Client::new(token.clone());
     let intents = Intents::GUILD_MESSAGES | Intents::MESSAGE_CONTENT;
     let config = Config::new(token.clone(), intents);
-    let cache = InMemoryCacheBuilder::new()
-        .message_cache_size(1_000)
-        .resource_types(ResourceType::USER_CURRENT | ResourceType::CHANNEL | ResourceType::MESSAGE)
-        .build();
     let shards: Vec<Shard> =
         twilight_gateway::stream::create_recommended(&client, config, |_, builder| builder.build())
             .await
@@ -54,7 +49,6 @@ async fn main() {
     let should_shutdown = Arc::new(AtomicBool::new(false));
     let state = AppState {
         should_shutdown,
-        cache: Arc::new(cache),
         paste_url: Arc::new(paste_url),
         http: Arc::new(client),
         del_cache: Arc::new(MessageReplies::new()),
@@ -97,7 +91,6 @@ async fn event_loop(mut shard: Shard, state: AppState) {
                 trace!(?event, "got event");
                 let state = state.clone();
                 tokio::spawn(async move {
-                    state.cache.update(&event);
                     if let Err(source) = handle_event(state, event).await {
                         // this includes even user caused errors. User beware. Don't set up automatic emails or anything.
                         error!(?source, "Handler error");
@@ -221,7 +214,6 @@ pub struct AppState {
     should_shutdown: Arc<AtomicBool>,
     paste_url: Arc<String>,
     http: Arc<twilight_http::Client>,
-    cache: Arc<twilight_cache_inmemory::InMemoryCache>,
     del_cache: Arc<MessageReplies>,
 }
 

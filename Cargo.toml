@@ -8,9 +8,6 @@ description = "A discord bot to make pastes"
 [dependencies]
 tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal"] }
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
-twilight-cache-inmemory = { version = "0.15", features = [
-    "permission-calculator",
-] }
 twilight-validate = "0.15"
 twilight-gateway = "0.15"
 twilight-model = "0.15"
