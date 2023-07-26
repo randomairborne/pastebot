@@ -144,6 +144,7 @@ async fn new_message(message: MessageCreate, state: AppState) -> Result<(), Erro
     for attachment in &message.attachments {
         if let Some(ctype) = &attachment.content_type {
             if !ctype.to_ascii_lowercase().contains("charset=utf-8") {
+                debug!("skipping attachment {} for having a content type of {}", attachment.filename, ctype);
                 continue;
             }
         }
@@ -176,11 +177,14 @@ async fn new_message(message: MessageCreate, state: AppState) -> Result<(), Erro
             row1.components.push(Component::Button(button));
         }
     }
-    let components = if row1.components.is_empty() {
+    let components = if row0.components.is_empty() {
+        return Err(Error::InvalidAttachment);
+    } else if row1.components.is_empty() {
         vec![Component::ActionRow(row0)]
     } else {
         vec![Component::ActionRow(row0), Component::ActionRow(row1)]
     };
+    trace!(?components, "sending components to discord");
     let new_msg = state
         .http
         .create_message(message.channel_id)
@@ -267,4 +271,6 @@ pub enum Error {
     HttpBody(#[from] twilight_http::response::DeserializeBodyError),
     #[error("Twilight-Validate message error: {0}")]
     MessageValidation(#[from] twilight_validate::message::MessageValidationError),
+    #[error("Invalid attachment detected")]
+    InvalidAttachment
 }
