@@ -162,7 +162,10 @@ async fn new_message(message: MessageCreate, state: AppState) -> Result<(), Erro
             }),
             label: Some(format!("View {}", attachment.filename)),
             style: ButtonStyle::Link,
-            url: Some(format!("{}#/{}/{}/{}", state.paste_url, message.channel_id, attachment.id, attachment.filename)),
+            url: Some(format!(
+                "{}#/{}/{}/{}",
+                state.paste_url, message.channel_id, attachment.id, attachment.filename
+            )),
         };
         buttons.push(button);
     }
