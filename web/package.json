@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "wrangler pages dev . && killall workerd"
+    "dev": "wrangler pages dev .; killall workerd"
   },
   "author": "",
   "license": "ISC",

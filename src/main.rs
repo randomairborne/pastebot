@@ -143,8 +143,12 @@ async fn new_message(message: MessageCreate, state: AppState) -> Result<(), Erro
     let mut buttons: Vec<Button> = Vec::with_capacity(10);
     for attachment in &message.attachments {
         if let Some(ctype) = &attachment.content_type {
-            if !ctype.to_ascii_lowercase().contains("charset=utf-8") {
-                debug!("skipping attachment {} for having a content type of {}", attachment.filename, ctype);
+            let ctype_lowercase = ctype.to_ascii_lowercase();
+            if !ctype_lowercase.contains("charset=utf") {
+                debug!(
+                    "skipping attachment {} for having a content type of {}",
+                    attachment.filename, ctype
+                );
                 continue;
             }
         }
@@ -272,5 +276,5 @@ pub enum Error {
     #[error("Twilight-Validate message error: {0}")]
     MessageValidation(#[from] twilight_validate::message::MessageValidationError),
     #[error("Invalid attachment detected")]
-    InvalidAttachment
+    InvalidAttachment,
 }
