@@ -23,7 +23,6 @@ jobs:
       fail-fast: true
       matrix:
         arch: [aarch64, x86_64]
-        module: [bot, web]
     steps:
       - name: Check out code into the proper directory
         uses: actions/checkout@v3
@@ -47,12 +46,12 @@ jobs:
           TARGET_CC: ${{ github.workspace }}/${{ matrix.arch }}-linux-musl-cross/bin/${{ matrix.arch }}-linux-musl-cc
           TARGET_AR: ${{ github.workspace }}/${{ matrix.arch }}-linux-musl-cross/bin/${{ matrix.arch }}-linux-musl-ar
           RUSTFLAGS: -C linker=${{ github.workspace }}/${{ matrix.arch }}-linux-musl-cross/bin/${{ matrix.arch }}-linux-musl-cc
-        run: cargo b --release --bin ${{ matrix.module }} --target ${{ matrix.arch }}-unknown-linux-musl
+        run: cargo b --release --target ${{ matrix.arch }}-unknown-linux-musl
 
       - name: Upload executables
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.module }}-${{ matrix.arch }}-executables
+          name: ${{ matrix.arch }}-executables
           path: |
             target/${{ matrix.arch }}-unknown-linux-musl/release/${{ matrix.module }}
 
@@ -73,17 +72,17 @@ jobs:
       - name: Download ARM executables
         uses: actions/download-artifact@v3
         with:
-          name: ${{ matrix.module }}-aarch64-executables
-          path: ./${{ matrix.module }}/arm64-executables
+          name: aarch64-executables
+          path: ./arm64-executables
 
       - name: Download x86 executables
         uses: actions/download-artifact@v3
         with:
-          name: ${{ matrix.module }}-x86_64-executables
-          path: ./${{ matrix.module }}/amd64-executables
+          name: x86_64-executables
+          path: ./amd64-executables
 
       - name: Mark programs as executable
-        run: chmod +x ./${{ matrix.module }}/*executables/*
+        run: chmod +x ./*executables/*
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -98,8 +97,7 @@ jobs:
       - name: Build container
         uses: docker/build-push-action@v4
         with:
-          context: ./${{ matrix.module }}/
           push: true
-          tags: ghcr.io/${{ env.REPO }}-${{ matrix.module }}:latest
+          tags: ghcr.io/${{ env.REPO }}:latest
           platforms: linux/arm64,linux/amd64
 

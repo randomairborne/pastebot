@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="robots" content="noindex" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="stylesheet" href="/attachment/index.css" />
+  <title>View Discord file</title>
+  <script>
+    let FF_FOUC_FIX;
+  </script>
+  <script src="/attachment/index.js" defer></script>
+</head>
+<body>
+  <div class="center" id="center">
+    <div class="menu" id="menu">
+      <input type="checkbox" class="btn" id="wrap" onclick="toggleWrap()" onload="toggleWrap()">Wrap lines</input>
+    </div>
+  </div>
+  <div class="outer-margin">
+    <code class="paste" id="paste"></code>
+  </div>
+  <script>
+    function toggleWrap() {
+      if (document.getElementById("wrap").checked === true) {
+        document.getElementById("paste").style.whiteSpace = "pre-wrap";
+      } else {
+        document.getElementById("paste").style.whiteSpace = "pre";
+      }
+    }
+  </script>
+</body>
+
+</html>

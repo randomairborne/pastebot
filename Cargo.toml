@@ -1,10 +1,22 @@
-[workspace]
-members = [
-    "bot",
-    "web"
-]
+[package]
+name = "pastebot"
+version = "0.1.0"
+edition = "2021"
+authors = ["valkyrie_pilot <valk@randomairborne.dev>"]
+description = "A discord bot to make pastes"
 
-
-[profile.release]
-codegen-units = 1
-lto = "fat"
+[dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal"] }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+twilight-cache-inmemory = { version = "0.15", features = [
+    "permission-calculator",
+] }
+twilight-validate = "0.15"
+twilight-gateway = "0.15"
+twilight-model = "0.15"
+twilight-http = "0.15"
+parking_lot = "0.12"
+dotenvy = "0.15"
+thiserror = "1"
+tracing = "0.1"
+ahash = "0.8"
