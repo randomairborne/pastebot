@@ -13,7 +13,7 @@ export const onRequest: PagesFunction = async ({ params }) => {
     }
   );
   let body = await response.arrayBuffer();
-  console.log(JSON.stringify(new Map(response.headers)));
+  console.log(JSON.stringify(Object.fromEntries(response.headers)));
   const dec = new TextDecoder("utf-8");
   console.log(dec.decode(body));
     return new Response(body, {
