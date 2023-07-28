@@ -102,7 +102,7 @@ jobs:
         with:
           push: true
           context: .
-          dockerfile: ./${{ matrix.module }}/Dockerfile
+          file: ./${{ matrix.module }}/Dockerfile
           tags: ghcr.io/${{ env.REPO }}-${{ matrix.module }}:latest
           platforms: linux/arm64,linux/amd64
   deploy:
