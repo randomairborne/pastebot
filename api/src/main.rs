@@ -22,6 +22,17 @@ async fn main() {
         .with_state(http);
     axum::Server::bind(&([0, 0, 0, 0], 8080).into())
         .serve(app.into_make_service())
+        .with_graceful_shutdown(async {
+            #[cfg(not(target_family = "unix"))]
+            compile_error!("Windows is not supported");
+            let mut term_handler =
+                tokio::signal::unix::signal(tokio::signal::unix::SignalKind::terminate()).unwrap();
+            tokio::select! {
+                _ = tokio::signal::ctrl_c() => {},
+                _ = term_handler.recv() => {}
+            }
+            eprintln!("Shutting down..");
+        })
         .await
         .unwrap();
 }
