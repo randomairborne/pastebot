@@ -1,7 +1,10 @@
 use axum::{
     body::{Bytes, StreamBody},
     extract::{Path, State},
+    http::{HeaderName, HeaderValue, Request},
+    middleware::{from_fn, Next},
     response::IntoResponse,
+    response::Response,
     routing::get,
 };
 use futures_core::Stream;
@@ -15,11 +18,21 @@ async fn main() {
             "/attachment/:channelid/:attachmentid/:filename",
             get(get_file),
         )
+        .layer(axum::middleware::from_fn(cors))
         .with_state(http);
     axum::Server::bind(&([0, 0, 0, 0], 8080).into())
         .serve(app.into_make_service())
         .await
         .unwrap();
+}
+
+async fn cors<B>(request: Request<B>, next: Next<B>) -> Response {
+    let mut response = next.run(request).await;
+    response.headers_mut().insert(
+        HeaderName::from_static("Access-Control-Allow-Origin"),
+        HeaderValue::from_static("paste.valk.sh"),
+    );
+    response
 }
 
 #[axum::debug_handler]
