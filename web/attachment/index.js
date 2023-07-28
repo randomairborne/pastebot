@@ -2,8 +2,7 @@ const paste = document.getElementById("paste");
 const hashData = location.hash.replace("#", "");
 
 async function replacePaste() {
-  let resp = await fetch("https://pastebot-api.valk.sh" + hashData);
-  let data = await resp.arrayBuffer();
+  let resp = await fetch("https://pastebot-api.valk.sh/attachment" + hashData);
   let ctype = "utf-8";
   let maybe_ctype = resp.headers.get("Content-Type").split("charset=")[1];
   if (maybe_ctype) {
@@ -11,9 +10,11 @@ async function replacePaste() {
     ctype = maybe_ctype;
   }
   const decoder = new TextDecoder(ctype);
-  const text = decoder.decode(data);
-  console.log(text);
-  paste.innerText = text;
+  for await (const chunk of resp.body) {
+    const text = decoder.decode(data);
+    console.log(text);
+    paste.append(text);
+  }
 }
 replacePaste().then(() => {});
 
