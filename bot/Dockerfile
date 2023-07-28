@@ -1,5 +1,5 @@
 FROM alpine
 ARG TARGETARCH
-COPY /${TARGETARCH}-executables/pastebot /usr/bin/
+COPY /${TARGETARCH}-executables/pastebot-bot /usr/bin/
 
-ENTRYPOINT "/usr/bin/pastebot"
+ENTRYPOINT "/usr/bin/pastebot-bot"
