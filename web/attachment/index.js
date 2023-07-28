@@ -8,14 +8,14 @@ async function replacePaste() {
   if (maybe_ctype) {
     maybe_ctype.trim();
     ctype = maybe_ctype;
-  }
+  };
   const decoder = new TextDecoder(ctype);
   for await (const chunk of resp.body) {
     const text = decoder.decode(data);
     console.log(text);
     paste.append(text);
-  }
-}
+  };
+};
 replacePaste().then(() => {});
 
 

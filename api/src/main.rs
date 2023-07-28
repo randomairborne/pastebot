@@ -54,7 +54,7 @@ async fn get_file(
 ) -> Result<StreamBody<impl Stream<Item = Result<Bytes, reqwest::Error>>>, Error> {
     let req = http
         .get(format!(
-            "https://cdn.discordapp.com/attachment/{channel_id}/{attachment_id}/{filename}"
+            "https://cdn.discordapp.com/attachments/{channel_id}/{attachment_id}/{filename}"
         ))
         .send()
         .await?;
