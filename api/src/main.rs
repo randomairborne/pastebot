@@ -2,7 +2,7 @@ use axum::{
     body::{Bytes, StreamBody},
     extract::{Path, State},
     http::{HeaderName, HeaderValue, Request},
-    middleware::{from_fn, Next},
+    middleware::Next,
     response::IntoResponse,
     response::Response,
     routing::get,
@@ -37,12 +37,13 @@ async fn main() {
         .unwrap();
 }
 
+const CORS_HN: HeaderName = HeaderName::from_static("access-control-allow-origin");
+
 async fn cors<B>(request: Request<B>, next: Next<B>) -> Response {
     let mut response = next.run(request).await;
-    response.headers_mut().insert(
-        HeaderName::from_static("Access-Control-Allow-Origin"),
-        HeaderValue::from_static("paste.valk.sh"),
-    );
+    response
+        .headers_mut()
+        .insert(CORS_HN, HeaderValue::from_static("paste.valk.sh"));
     response
 }
 
