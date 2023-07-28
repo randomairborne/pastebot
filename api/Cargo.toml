@@ -1,0 +1,11 @@
+[package]
+name = "pastebot-api"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+reqwest = { version = "0.11", features = ["stream", "rustls-tls"], default-features = false }
+thiserror = "1"
+axum = { version = "0.6", features = ["macros", "http2"] }
+futures-core = "0.3.28"

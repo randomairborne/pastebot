@@ -55,11 +55,16 @@ jobs:
         with:
           name: ${{ matrix.arch }}-executables
           path: |
-            target/${{ matrix.arch }}-unknown-linux-musl/release/pastebot
+            target/${{ matrix.arch }}-unknown-linux-musl/release/pastebot-bot
+            target/${{ matrix.arch }}-unknown-linux-musl/release/pastebot-api
 
   publish:
     runs-on: ubuntu-latest
     needs: [build]
+    strategy:
+      fail-fast: true
+      matrix:
+        module: [bot, api]
     steps:
       - name: Correct env
         run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
@@ -96,8 +101,8 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          context: .
-          tags: ghcr.io/${{ env.REPO }}:latest
+          context: ./${{ matrix.module }}/
+          tags: ghcr.io/${{ env.REPO }}-${{ matrix.module }}:latest
           platforms: linux/arm64,linux/amd64
   deploy:
     runs-on: ubuntu-latest

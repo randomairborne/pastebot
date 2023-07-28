@@ -2,7 +2,7 @@ const paste = document.getElementById("paste");
 const hashData = location.hash.replace("#", "");
 
 async function replacePaste() {
-  let resp = await fetch("/api" + hashData);
+  let resp = await fetch("https://pastebot-api.valk.sh" + hashData);
   let data = await resp.arrayBuffer();
   let ctype = "utf-8";
   let maybe_ctype = resp.headers.get("Content-Type").split("charset=")[1];
