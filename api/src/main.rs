@@ -43,7 +43,7 @@ async fn cors<B>(request: Request<B>, next: Next<B>) -> Response {
     let mut response = next.run(request).await;
     response
         .headers_mut()
-        .insert(CORS_HN, HeaderValue::from_static("paste.valk.sh"));
+        .insert(CORS_HN, HeaderValue::from_static("https://paste.valk.sh"));
     response
 }
 
