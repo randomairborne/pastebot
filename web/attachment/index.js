@@ -13,8 +13,8 @@ async function replacePaste() {
   }
   const decoder = new TextDecoder(ctype);
   for await (const chunk of resp.body) {
-    const text = decoder.decode(data);
-    console.log(text);
+    const text = decoder.decode(chunk);
+    console.debug(text);
     paste.append(text);
   }
 }
