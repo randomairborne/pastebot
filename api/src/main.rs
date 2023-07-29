@@ -9,6 +9,7 @@ use axum::{
 };
 use futures_core::Stream;
 use reqwest::{Client, StatusCode};
+use tower_http::compression::CompressionLayer;
 
 #[tokio::main]
 async fn main() {
@@ -19,6 +20,7 @@ async fn main() {
             get(get_file),
         )
         .layer(axum::middleware::from_fn(cors))
+        .layer(CompressionLayer::new())
         .with_state(http);
     axum::Server::bind(&([0, 0, 0, 0], 8080).into())
         .serve(app.into_make_service())
