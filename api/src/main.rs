@@ -1,7 +1,7 @@
 use axum::{
     body::{Bytes, StreamBody},
     extract::{Path, State},
-    http::{HeaderName, HeaderValue, Request},
+    http::{HeaderMap, HeaderName, HeaderValue, Request},
     middleware::Next,
     response::IntoResponse,
     response::Response,
@@ -47,12 +47,14 @@ async fn cors<B>(request: Request<B>, next: Next<B>) -> Response {
     response
 }
 
+type StreamItem = Result<Bytes, reqwest::Error>;
+
 #[axum::debug_handler]
 async fn get_file(
     Path((channel_id, attachment_id, filename)): Path<(String, String, String)>,
     State(http): State<Client>,
-) -> Result<StreamBody<impl Stream<Item = Result<Bytes, reqwest::Error>>>, Error> {
-    let req = http
+) -> Result<(HeaderMap, StreamBody<impl Stream<Item = StreamItem>>), Error> {
+    let mut req = http
         .get(format!(
             "https://cdn.discordapp.com/attachments/{channel_id}/{attachment_id}/{filename}"
         ))
@@ -61,7 +63,13 @@ async fn get_file(
     if req.status() == StatusCode::NOT_FOUND || req.status() == StatusCode::FORBIDDEN {
         return Err(Error::NotFound);
     }
-    Ok(StreamBody::new(req.bytes_stream()))
+    let content_type = req
+        .headers_mut()
+        .remove("content-type")
+        .unwrap_or(HeaderValue::from_static("text/plain; charset=utf-8"));
+    let mut headers = HeaderMap::new();
+    headers.insert(HeaderName::from_static("content-type"), content_type);
+    Ok((headers, StreamBody::new(req.bytes_stream())))
 }
 
 #[derive(Debug, thiserror::Error)]
