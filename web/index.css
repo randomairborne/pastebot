@@ -1,39 +1,46 @@
 @media (prefers-color-scheme: dark) {
-  html {
-    background-color: #000;
-    color: #fff;
-  }
+    html {
+        background-color: #000;
+        color: #fff;
+    }
 }
 @media (prefers-color-scheme: light) {
-  html {
-    background-color: #fff;
-    color: #000;
-  }
+    html {
+        background-color: #fff;
+        color: #000;
+    }
+}
+@media (min-width: 600px) {
+    body {
+        margin-left: 10vw;
+        margin-right: 10vw;
+        margin-top: 10vh;
+        margin-bottom: 10vh;
+    }
 }
 body {
-  font-family: monospace;
+    font-family: monospace;
+    flex-wrap: wrap;
+    display: flex;
 }
 .center {
-  justify-content: center;
-  align-items: center;
-  display: flex;
+   display: flex;
+   flex-wrap: wrap;
+   width: 100%;
+   align-items: center;
+   justify-content: center;
 }
-.menu {
-  display: flex;
-  padding-top: 1vh;
-  padding-bottom: 1vh;
-  flex-wrap: wrap;
-  align-items: center;
+img.main-logo {
+    width: 20vh;
+    height: 20vh;
 }
-.btn {
-  font-size: small;
+.title {
+   font-size: 9vh; 
 }
-.paste {
-  white-space: pre;
+.heading {
+    flex-direction: row;
+    height: 70vh;
 }
-.outer-margin {
-  margin-left: 5vw;
-  margin-right: 5vw;
-  margin-top: 1vh;
-  margin-bottom: 1vh;
+.subheading {
+    height: 25vh;
 }
