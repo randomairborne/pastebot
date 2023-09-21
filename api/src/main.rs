@@ -10,10 +10,26 @@ use axum::{
 use futures_core::Stream;
 use reqwest::{Client, StatusCode};
 use tower_http::compression::CompressionLayer;
+use tracing_subscriber::{prelude::__tracing_subscriber_SubscriberExt, util::SubscriberInitExt};
 
 #[tokio::main]
 async fn main() {
-    let http = reqwest::Client::new();
+    dotenvy::dotenv().ok();
+    let env_filter = tracing_subscriber::EnvFilter::builder()
+        .with_default_directive(concat!(env!("CARGO_PKG_NAME"), "=info").parse().unwrap())
+        .from_env()
+        .expect("failed to parse env");
+    tracing_subscriber::registry()
+        .with(tracing_subscriber::fmt::layer())
+        .with(env_filter)
+        .init();
+    let http = reqwest::Client::builder()
+        .user_agent("pastebot/api (valk@randomairborne.dev)")
+        .gzip(true)
+        .brotli(true)
+        .deflate(true)
+        .build()
+        .unwrap();
     let app = axum::Router::new()
         .route(
             "/attachment/:channelid/:attachmentid/:filename",
@@ -51,9 +67,8 @@ async fn cors<B>(request: Request<B>, next: Next<B>) -> Response {
 
 type StreamItem = Result<Bytes, reqwest::Error>;
 
-#[axum::debug_handler]
 async fn get_file(
-    Path((channel_id, attachment_id, filename)): Path<(String, String, String)>,
+    Path((channel_id, attachment_id, filename)): Path<(u64, u64, u64)>,
     State(http): State<Client>,
 ) -> Result<(HeaderMap, StreamBody<impl Stream<Item = StreamItem>>), Error> {
     let mut req = http

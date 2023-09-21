@@ -3,3 +3,4 @@ members = [
     "bot",
     "api"
 ]
+resolver = "2"

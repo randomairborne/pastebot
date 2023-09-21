@@ -27,9 +27,13 @@ extern crate tracing;
 #[tokio::main]
 async fn main() {
     dotenvy::dotenv().ok();
+    let env_filter = tracing_subscriber::EnvFilter::builder()
+        .with_default_directive(concat!(env!("CARGO_PKG_NAME"), "=info").parse().unwrap())
+        .from_env()
+        .expect("failed to parse env");
     tracing_subscriber::registry()
         .with(tracing_subscriber::fmt::layer())
-        .with(tracing_subscriber::EnvFilter::from_default_env())
+        .with(env_filter)
         .init();
     let token =
         std::env::var("DISCORD_TOKEN").expect("Failed to get DISCORD_TOKEN environment variable");

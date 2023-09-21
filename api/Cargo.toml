@@ -4,9 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-tower-http = { version = "0.4", features = ["compression-full", "decompression-full"], default-features = false }
-reqwest = { version = "0.11", features = ["stream", "rustls-tls"], default-features = false }
+reqwest = { version = "0.11", features = ["stream", "rustls-tls", "gzip", "brotli", "deflate"], default-features = false }
+tower-http = { version = "0.4",features = ["compression-full"], default-features = false }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal"] }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 axum = { version = "0.6", features = ["macros", "http2"] }
-tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 futures-core = "0.3"
+dotenvy = "0.15"
 thiserror = "1"
