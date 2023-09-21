@@ -36,6 +36,7 @@ async fn main() {
             get(get_file),
         )
         .layer(axum::middleware::from_fn(cors))
+        .layer(axum::middleware::from_fn(cache))
         .layer(CompressionLayer::new())
         .with_state(http);
     axum::Server::bind(&([0, 0, 0, 0], 8080).into())
@@ -55,13 +56,26 @@ async fn main() {
         .unwrap();
 }
 
-const CORS_HN: HeaderName = HeaderName::from_static("access-control-allow-origin");
+const CORS_HEADER_NAME: HeaderName = HeaderName::from_static("access-control-allow-origin");
+static CORS_HEADER_VALUE: HeaderValue = HeaderValue::from_static("https://paste.valk.sh");
 
 async fn cors<B>(request: Request<B>, next: Next<B>) -> Response {
     let mut response = next.run(request).await;
     response
         .headers_mut()
-        .insert(CORS_HN, HeaderValue::from_static("https://paste.valk.sh"));
+        .insert(CORS_HEADER_NAME, CORS_HEADER_VALUE.clone());
+    response
+}
+
+const CACHE_HEADER_NAME: HeaderName = HeaderName::from_static("cache-control");
+static CACHE_HEADER_VALUE: HeaderValue =
+    HeaderValue::from_static("s-maxage=604800, maxage=604800, immutable");
+
+async fn cache<B>(request: Request<B>, next: Next<B>) -> Response {
+    let mut response = next.run(request).await;
+    response
+        .headers_mut()
+        .insert(CACHE_HEADER_NAME, CACHE_HEADER_VALUE.clone());
     response
 }
 
